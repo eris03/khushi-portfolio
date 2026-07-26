@@ -18,9 +18,12 @@ import Achievements from "@/components/Achievements";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
+import AskMe from "@/components/AskMe";
+import QuickView from "@/components/QuickView";
 
 export default function Page() {
   const [ready, setReady] = useState(false);
+  const [quick, setQuick] = useState(false);
 
   // hold the page still while the K is being painted
   useEffect(() => {
@@ -39,7 +42,9 @@ export default function Page() {
       <SmoothScroll />
       <Atmosphere />
       <Progress />
-      <Nav ready={ready} />
+      <Nav ready={ready} onQuickView={() => setQuick(true)} />
+      <QuickView open={quick} onClose={() => setQuick(false)} />
+      <AskMe ready={ready} />
 
       <main className="relative">
         <Hero ready={ready} />

@@ -15,10 +15,28 @@ export const metadata: Metadata = {
     "Portfolio",
   ],
   authors: [{ name: "Khushi Yadav" }],
+  metadataBase: new URL("https://eris03.github.io/khushi-portfolio/"),
   openGraph: {
-    title: "Khushi Yadav — Artist × AI Engineer",
-    description: "Designing beautiful intelligence.",
+    title: "Khushi Yadav — AI Developer & Data Analyst",
+    description:
+      "Forecasting systems, LLM applications and Android products, shipped end to end. B.E. CSE (AI & ML), 8.3 CGPA. Bengaluru.",
     type: "website",
+    url: "https://eris03.github.io/khushi-portfolio/",
+    siteName: "Khushi Yadav",
+    images: [
+      {
+        url: "/khushi-portfolio/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Khushi Yadav — AI Developer, Data Analyst, AI/ML Engineer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Khushi Yadav — AI Developer & Data Analyst",
+    description: "Designing beautiful intelligence.",
+    images: ["/khushi-portfolio/og.png"],
   },
 };
 
