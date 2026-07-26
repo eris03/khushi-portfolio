@@ -234,7 +234,7 @@ export default function AskMe({ ready }: { ready: boolean }) {
         {/* her animated illustration, as the launcher */}
         <span className="relative block h-[3.5rem] w-[3.5rem] overflow-hidden rounded-full bg-white shadow-lift">
           <video
-            className="h-full w-full scale-[1.4] object-cover"
+            className="pointer-events-none h-full w-full scale-[1.4] object-cover"
             src={asset("/avatar.mp4")}
             poster={asset("/avatar-poster.png")}
             autoPlay
@@ -242,7 +242,11 @@ export default function AskMe({ ready }: { ready: boolean }) {
             muted
             playsInline
             preload="metadata"
+            controls={false}
+            disablePictureInPicture
+            disableRemotePlayback
             aria-hidden
+            tabIndex={-1}
           />
         </span>
 
@@ -256,6 +260,16 @@ export default function AskMe({ ready }: { ready: boolean }) {
         @keyframes askme-pulse {
           0% { transform: scale(1); opacity: 0.75; }
           100% { transform: scale(1.5); opacity: 0; }
+        }
+        /* Chrome paints a native Picture-in-Picture / cast overlay on hovered
+           videos — it was covering the launcher illustration. */
+        video::-webkit-media-controls,
+        video::-webkit-media-controls-enclosure,
+        video::-webkit-media-controls-panel,
+        video::-webkit-media-controls-start-playback-button,
+        video::-internal-media-controls-overlay-cast-button {
+          display: none !important;
+          -webkit-appearance: none !important;
         }
       `}</style>
     </motion.div>
