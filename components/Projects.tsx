@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects, type Project } from "@/lib/data";
 import { SectionHead, Tilt, Flower } from "./ui";
@@ -24,7 +25,12 @@ function Modal({ p, onClose }: { p: Project; onClose: () => void }) {
     { label: "Where it landed", text: p.result },
   ];
 
-  return (
+  /*
+   * Rendered through a portal onto <body>. Every section carries `relative z-10`,
+   * which creates its own stacking context — so a modal left inside <Projects>
+   * gets painted over by any later section no matter how high its z-index.
+   */
+  return createPortal(
     <motion.div
       className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto p-3 sm:p-6"
       initial={{ opacity: 0 }}
@@ -134,7 +140,8 @@ function Modal({ p, onClose }: { p: Project; onClose: () => void }) {
           </motion.div>
         </div>
       </motion.article>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
 
