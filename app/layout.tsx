@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "Khushi Yadav",
     images: [
       {
-        url: "/khushi-portfolio/og.png",
+        url: "og.png",
         width: 1200,
         height: 630,
         alt: "Khushi Yadav — AI Developer, Data Analyst, AI/ML Engineer",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Khushi Yadav — AI Developer & Data Analyst",
     description: "Designing beautiful intelligence.",
-    images: ["/khushi-portfolio/og.png"],
+    images: ["og.png"],
   },
 };
 
