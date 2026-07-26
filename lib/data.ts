@@ -1,6 +1,6 @@
 export const profile = {
   name: "Khushi Yadav",
-  roles: ["Artist", "AI Engineer", "Creative Technologist"],
+  roles: ["AI Developer", "Data Analyst", "AI/ML Engineer"],
   tagline: "Designing beautiful intelligence.",
   title: "Computer Science & Engineering (AI & ML) Graduate · AI Developer · Data Analyst",
   location: "Bengaluru, Karnataka, India",
@@ -127,6 +127,14 @@ export type Project = {
   live?: string;
   palette: [string, string, string];
   visual: "forecast" | "movies" | "chat" | "map";
+  /**
+   * Drop a real screenshot at this path in /public and it replaces the animated
+   * artwork automatically. Leave undefined and the animation is used instead.
+   * e.g. "/projects/demandsense.png"
+   */
+  image?: string;
+  /** Extra screenshots shown inside the project modal. */
+  gallery?: string[];
 };
 
 export const projects: Project[] = [
@@ -147,6 +155,8 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/DemandSense",
     palette: ["#FFD6E8", "#DCCBFF", "#CFE8FF"],
     visual: "forecast",
+    image: "/projects/demandsense.png",
+    gallery: ["/projects/demandsense.png", "/projects/demandsense-2.png"],
   },
   {
     id: "movies",
@@ -165,6 +175,8 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/movie-recommendation-system",
     palette: ["#FFD8BE", "#F8C8DC", "#DCCBFF"],
     visual: "movies",
+    image: "/projects/movies.png",
+    gallery: ["/projects/movies.png", "/projects/movies-2.png"],
   },
   {
     id: "chatbot",
@@ -182,6 +194,8 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/llm-chatbot",
     palette: ["#CFF5E7", "#CFE8FF", "#DCCBFF"],
     visual: "chat",
+    image: "/projects/chatbot.png",
+    gallery: ["/projects/chatbot.png", "/projects/chatbot-2.png"],
   },
   {
     id: "fieldtrack",
@@ -199,6 +213,8 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/fieldtrack-pro",
     palette: ["#CFE8FF", "#CFF5E7", "#FFD6E8"],
     visual: "map",
+    image: "/projects/fieldtrack.png",
+    gallery: ["/projects/fieldtrack.png", "/projects/fieldtrack-2.png"],
   },
 ];
 
