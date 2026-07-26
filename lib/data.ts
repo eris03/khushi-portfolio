@@ -135,6 +135,8 @@ export type Project = {
   image?: string;
   /** Extra screenshots shown inside the project modal. */
   gallery?: string[];
+  /** Measured numbers, shown as animated stat blocks inside the modal. */
+  metrics?: { value: string; label: string; note?: string }[];
 };
 
 export const projects: Project[] = [
@@ -155,6 +157,11 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/DemandSense",
     palette: ["#FFD6E8", "#DCCBFF", "#CFE8FF"],
     visual: "forecast",
+    metrics: [
+      { value: "2", label: "models backtested", note: "Holt-Winters vs. gradient boosting, auto-selected per store" },
+      { value: "Multi", label: "store forecasting", note: "one pipeline across every location" },
+      { value: "Rolling MAD", label: "anomaly detection", note: "tuned window, far fewer false alarms than z-score" },
+    ],
     image: "/projects/demandsense.png",
     gallery: ["/projects/demandsense.png", "/projects/demandsense-2.png"],
   },
@@ -175,6 +182,11 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/movie-recommendation-system",
     palette: ["#FFD8BE", "#F8C8DC", "#DCCBFF"],
     visual: "movies",
+    metrics: [
+      { value: "Content-based", label: "recommender", note: "similarity scoring over engineered text features" },
+      { value: "4+", label: "feature families", note: "genres, keywords, cast, crew" },
+      { value: "Most of it", label: "spent on cleaning", note: "nested JSON, duplicate titles, inconsistent naming" },
+    ],
     image: "/projects/movies.png",
     gallery: ["/projects/movies.png", "/projects/movies-2.png"],
   },
@@ -194,6 +206,11 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/llm-chatbot",
     palette: ["#CFF5E7", "#CFE8FF", "#DCCBFF"],
     visual: "chat",
+    metrics: [
+      { value: "90%+", label: "accuracy on real queries", note: "measured against production traffic, not curated examples" },
+      { value: "Live", label: "deployed and running", note: "FastAPI backend, React frontend" },
+      { value: "Many", label: "prompt iterations", note: "rewritten by hand until the numbers moved" },
+    ],
     image: "/projects/chatbot.png",
     gallery: ["/projects/chatbot.png", "/projects/chatbot-2.png"],
   },
@@ -213,6 +230,11 @@ export const projects: Project[] = [
     github: "https://github.com/eris03/fieldtrack-pro",
     palette: ["#CFE8FF", "#CFF5E7", "#FFD6E8"],
     visual: "map",
+    metrics: [
+      { value: "In use", label: "daily at RK Developers", note: "one of four projects live today" },
+      { value: "GPS + selfie", label: "verified punch-in", note: "fast enough that people do not resent it" },
+      { value: "Self-serve", label: "admin dashboard", note: "managers pull their own records" },
+    ],
     image: "/projects/fieldtrack.png",
     gallery: ["/projects/fieldtrack.png", "/projects/fieldtrack-2.png"],
   },
