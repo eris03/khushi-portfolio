@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { skills, type Skill } from "@/lib/data";
+import { asset } from "@/lib/asset";
 import { SectionHead, Flower } from "./ui";
 
 /**
@@ -32,11 +33,19 @@ function Planet({
   active: boolean;
 }) {
   const size = 30 + (s.level - 75) * 0.6;
+
+  /*
+   * Position with left/top percentages, NOT `translate(radius%)`.
+   * A percentage translate resolves against the element's OWN width, so the
+   * planets were all collapsing onto the centre and hiding behind the core.
+   * Trig against the square container puts them on the actual orbit.
+   */
+  const rad = (angle * Math.PI) / 180;
+  const left = 50 + radius * Math.cos(rad);
+  const top = 50 + radius * Math.sin(rad);
+
   return (
-    <div
-      className="absolute left-1/2 top-1/2"
-      style={{ transform: `rotate(${angle}deg) translate(${radius}%) rotate(${-angle}deg)` }}
-    >
+    <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${left}%`, top: `${top}%` }}>
       {/* counter-spin keeps the label upright while the ring turns */}
       <div style={{ animation: `spin-back ${dur}s linear infinite` }}>
         <button
@@ -47,11 +56,11 @@ function Planet({
           onFocus={() => onHover(s)}
           onBlur={() => onHover(null)}
           aria-label={`${s.name} — ${s.years}`}
-          className="group relative grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full transition-transform duration-500 ease-silk"
+          className="group relative grid place-items-center rounded-full transition-transform duration-500 ease-silk"
           style={{
             width: size,
             height: size,
-            transform: `translate(-50%,-50%) scale(${active ? 1.55 : 1})`,
+            transform: `scale(${active ? 1.5 : 1})`,
             background: `radial-gradient(circle at 32% 28%, #FFFFFF, ${s.color} 62%)`,
             boxShadow: active ? `0 0 34px ${s.color}, 0 12px 30px -10px ${s.color}` : `0 8px 22px -8px ${s.color}`,
           }}
@@ -151,35 +160,25 @@ export default function Skills() {
                 />
               ))}
 
-              {/* the network itself */}
-              <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full p-[18%]" aria-hidden>
-                <g stroke="#DCCBFF" strokeWidth="1" opacity="0.55">
-                  {[22, 50, 78].map((y1) =>
-                    [32, 68].map((y2) => <line key={`${y1}-${y2}`} x1="16" y1={y1} x2="50" y2={y2} />)
-                  )}
-                  {[32, 68].map((y1) => (
-                    <line key={`o${y1}`} x1="50" y1={y1} x2="84" y2="50" />
-                  ))}
-                </g>
-                {[22, 50, 78].map((y, k) => (
-                  <circle key={`i${y}`} cx="16" cy={y} r="4" fill="#CFE8FF">
-                    <animate attributeName="opacity" values="0.35;1;0.35" dur="2.4s" begin={`${k * 0.3}s`} repeatCount="indefinite" />
-                  </circle>
-                ))}
-                {[32, 68].map((y, k) => (
-                  <circle key={`h${y}`} cx="50" cy={y} r="4.5" fill="#CFF5E7">
-                    <animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin={`${0.5 + k * 0.35}s`} repeatCount="indefinite" />
-                  </circle>
-                ))}
-                <circle cx="84" cy="50" r="5.5" fill="#F7AFC9">
-                  <animate attributeName="r" values="5.5;7;5.5" dur="1.8s" repeatCount="indefinite" />
-                </circle>
-              </svg>
-
-              <div className="relative z-10 mt-[52%] text-center">
-                <span className="block h-display text-[0.9rem] text-ink">Khushi</span>
-                <span className="block font-sans text-[0.55rem] tracking-[0.18em] uppercase text-ink2">the core</span>
+              {/* the animated illustration, at the centre of the orbit */}
+              <div className="absolute inset-[7%] overflow-hidden rounded-full bg-white">
+                <video
+                  className="avatar-blend h-full w-full scale-[1.3] object-cover"
+                  src={asset("/avatar.mp4")}
+                  poster={asset("/avatar-poster.png")}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  aria-label="Animated illustration of Khushi Yadav"
+                />
               </div>
+
+              <span className="absolute inset-x-0 -bottom-9 text-center">
+                <span className="block h-display text-[0.95rem] text-ink">Khushi</span>
+                <span className="block font-sans text-[0.55rem] tracking-[0.18em] uppercase text-ink2">the core</span>
+              </span>
             </div>
           </div>
         </motion.div>
@@ -233,13 +232,13 @@ export default function Skills() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="rounded-3xl border border-dashed border-pink-soft/70 px-8 py-12 text-center"
+                className="rounded-3xl px-8 py-12 text-center glass shadow-soft"
               >
                 <span className="mx-auto block w-fit animate-floaty">
                   <Flower size={34} color="#DCCBFF" />
                 </span>
                 <p className="mt-5 font-display italic text-[1.15rem] text-ink">hover a planet to explore</p>
-                <p className="mx-auto mt-3 max-w-xs text-[0.9rem] leading-relaxed text-ink2/80">
+                <p className="mx-auto mt-3 max-w-xs text-[0.9rem] leading-relaxed text-ink2">
                   Python, SQL, scikit-learn, Power BI, Kotlin, Prompt Engineering, LLM integration and the rest — each one
                   attached to something I actually built with it.
                 </p>
