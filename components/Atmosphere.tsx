@@ -34,6 +34,65 @@ const butterflies = range(4).map((i) => ({
   hue: ["#DCCBFF", "#F7AFC9", "#CFE8FF", "#FFD8BE"][i % 4],
 }));
 
+/** Small tech motifs that drift alongside the petals — the engineering half of the sky. */
+const techBits = range(14).map((i) => ({
+  i,
+  left: rand() * 100,
+  top: rand() * 100,
+  dur: 9 + rand() * 11,
+  delay: -rand() * 14,
+  scale: 0.6 + rand() * 0.5,
+  kind: (["bracket", "node", "binary", "chip", "query"] as const)[Math.floor(rand() * 5)],
+  hue: ["#DCCBFF", "#CFE8FF", "#CFF5E7", "#F7AFC9"][Math.floor(rand() * 4)],
+}));
+
+function TechBit({ kind, hue }: { kind: "bracket" | "node" | "binary" | "chip" | "query"; hue: string }) {
+  const common = { fill: "none", stroke: hue, strokeWidth: 1.3, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+
+  if (kind === "bracket")
+    return (
+      <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden>
+        <path d="M7 2 L2 8 L7 14 M15 2 L20 8 L15 14" {...common} opacity="0.75" />
+      </svg>
+    );
+
+  if (kind === "node")
+    return (
+      <svg width="26" height="22" viewBox="0 0 26 22" aria-hidden>
+        <path d="M4 5 L14 11 M4 17 L14 11 M14 11 L23 11" {...common} opacity="0.6" />
+        <circle cx="4" cy="5" r="2" fill={hue} opacity="0.8" />
+        <circle cx="4" cy="17" r="2" fill={hue} opacity="0.8" />
+        <circle cx="14" cy="11" r="2.4" fill={hue} opacity="0.9" />
+        <circle cx="23" cy="11" r="2" fill={hue} opacity="0.8" />
+      </svg>
+    );
+
+  if (kind === "binary")
+    return (
+      <svg width="24" height="12" viewBox="0 0 24 12" aria-hidden>
+        <text x="0" y="9" fontSize="9" fontFamily="monospace" fill={hue} opacity="0.7">
+          1011
+        </text>
+      </svg>
+    );
+
+  if (kind === "chip")
+    return (
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
+        <rect x="5.5" y="5.5" width="9" height="9" rx="1.6" {...common} opacity="0.75" />
+        <path d="M8 5.5 V2 M12 5.5 V2 M8 14.5 V18 M12 14.5 V18 M5.5 8 H2 M5.5 12 H2 M14.5 8 H18 M14.5 12 H18" {...common} opacity="0.5" />
+      </svg>
+    );
+
+  return (
+    <svg width="26" height="14" viewBox="0 0 26 14" aria-hidden>
+      <ellipse cx="13" cy="3.5" rx="9" ry="2.8" {...common} opacity="0.7" />
+      <path d="M4 3.5 V10.5 C4 12 8 13 13 13 C18 13 22 12 22 10.5 V3.5" {...common} opacity="0.7" />
+      <path d="M4 7 C4 8.5 8 9.5 13 9.5 C18 9.5 22 8.5 22 7" {...common} opacity="0.45" />
+    </svg>
+  );
+}
+
 function Butterfly({ hue }: { hue: string }) {
   return (
     <svg width="26" height="22" viewBox="0 0 26 22" style={{ overflow: "visible" }}>
@@ -45,7 +104,7 @@ function Butterfly({ hue }: { hue: string }) {
         <path d="M13 11 C19 1, 26 3, 24 9 C22.6 13.6, 17 13, 13 11 Z" fill={hue} opacity="0.85" />
         <path d="M13 11 C18 15, 23 18, 22.6 13.6 C22 11, 16.4 10.4, 13 11 Z" fill={hue} opacity="0.6" />
       </g>
-      <ellipse cx="13" cy="11" rx="1.1" ry="4.4" fill="#6D6D6D" opacity="0.5" />
+      <ellipse cx="13" cy="11" rx="1.1" ry="4.4" fill="#5C5C5C" opacity="0.5" />
     </svg>
   );
 }
@@ -150,6 +209,23 @@ export default function Atmosphere() {
             >
               <path d="M6 0C8.6 3 9.2 6.6 6 12 2.8 6.6 3.4 3 6 0Z" fill={p.hue} transform={`rotate(${p.spin} 6 6)`} />
             </svg>
+          ))}
+
+          {/* small tech motifs — brackets, nodes, chips, drifting quietly */}
+          {techBits.map((t) => (
+            <div
+              key={`t${t.i}`}
+              className="absolute"
+              style={{
+                left: `${t.left}%`,
+                top: `${t.top}%`,
+                transform: `scale(${t.scale})`,
+                opacity: 0.5,
+                animation: `techdrift ${t.dur}s ease-in-out ${t.delay}s infinite`,
+              }}
+            >
+              <TechBit kind={t.kind} hue={t.hue} />
+            </div>
           ))}
 
           {/* butterflies */}

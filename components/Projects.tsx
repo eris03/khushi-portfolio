@@ -64,7 +64,7 @@ function Modal({ p, onClose }: { p: Project; onClose: () => void }) {
           >
             <span className="eyebrow text-pink-dusty">{p.kind}</span>
             <h3 className="h-display mt-3 text-[clamp(2rem,5.5vw,3.4rem)] text-ink">{p.name}</h3>
-            <p className="mt-4 max-w-2xl font-hand text-[clamp(1.15rem,2.6vw,1.5rem)] text-ink2">{p.blurb}</p>
+            <p className="mt-4 max-w-2xl font-display italic text-[clamp(1.05rem,2vw,1.3rem)] text-ink2">{p.blurb}</p>
           </motion.div>
 
           <div className="mt-10 grid gap-8 md:grid-cols-2">

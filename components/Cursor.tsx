@@ -89,12 +89,13 @@ export default function Cursor() {
 
   if (!enabled) return null;
 
-  const petalScale = hover === "button" ? 1.75 : hover === "card" ? 1.28 : 1;
-  const spread = hover === "button" ? 9.5 : 6.4;
+  // slightly smaller than the original bloom — still a flower, less of a stage prop
+  const petalScale = hover === "button" ? 1.5 : hover === "card" ? 1.15 : 0.88;
+  const spread = hover === "button" ? 8 : 5.6;
 
   return (
     <>
-      {/* trailing sparkles + petals */}
+      {/* trailing sparkles + petals — sparse, not a shower */}
       <div className="pointer-events-none fixed inset-0 z-[150]" aria-hidden>
         {trail.map((t) => (
           <span
@@ -108,12 +109,12 @@ export default function Cursor() {
             }}
           >
             {t.kind === "petal" ? (
-              <svg width="11" height="11" viewBox="0 0 12 12">
-                <path d="M6 0C8.5 3 9 6.5 6 12 3 6.5 3.5 3 6 0Z" fill="#F8C8DC" />
+              <svg width="9" height="9" viewBox="0 0 12 12">
+                <path d="M6 0C8.5 3 9 6.5 6 12 3 6.5 3.5 3 6 0Z" fill="#F8C8DC" opacity="0.8" />
               </svg>
             ) : (
-              <svg width="9" height="9" viewBox="0 0 12 12">
-                <path d="M6 0 L7.2 4.8 L12 6 L7.2 7.2 L6 12 L4.8 7.2 L0 6 L4.8 4.8 Z" fill="#DCCBFF" />
+              <svg width="7" height="7" viewBox="0 0 12 12">
+                <path d="M6 0 L7.2 4.8 L12 6 L7.2 7.2 L6 12 L4.8 7.2 L0 6 L4.8 4.8 Z" fill="#DCCBFF" opacity="0.75" />
               </svg>
             )}
           </span>
@@ -126,38 +127,38 @@ export default function Cursor() {
         className="pointer-events-none fixed left-0 top-0 z-[151] rounded-full transition-[width,height,opacity] duration-500 ease-silk"
         aria-hidden
         style={{
-          width: hover === "none" ? 34 : 62,
-          height: hover === "none" ? 34 : 62,
+          width: hover === "none" ? 26 : 50,
+          height: hover === "none" ? 26 : 50,
           background:
             hover === "card"
-              ? "radial-gradient(circle, rgba(220,203,255,0.55), rgba(220,203,255,0) 70%)"
-              : "radial-gradient(circle, rgba(248,200,220,0.5), rgba(248,200,220,0) 70%)",
+              ? "radial-gradient(circle, rgba(220,203,255,0.5), rgba(220,203,255,0) 70%)"
+              : "radial-gradient(circle, rgba(248,200,220,0.4), rgba(248,200,220,0) 70%)",
         }}
       />
 
-      {/* the flower itself */}
+      {/* the flower itself — small, and quiet until you hover something */}
       <div ref={dotRef} className="pointer-events-none fixed left-0 top-0 z-[152]" aria-hidden>
         <svg
-          width="30"
-          height="30"
+          width="22"
+          height="22"
           viewBox="0 0 30 30"
           className="transition-transform duration-500 ease-silk"
-          style={{ transform: `scale(${down ? petalScale * 0.82 : petalScale}) rotate(${hover === "button" ? 36 : 0}deg)` }}
+          style={{ transform: `scale(${down ? petalScale * 0.82 : petalScale}) rotate(${hover === "button" ? 30 : 0}deg)` }}
         >
           {[0, 72, 144, 216, 288].map((a) => (
             <ellipse
               key={a}
               cx="15"
               cy={15 - spread}
-              rx="3.4"
+              rx="2.8"
               ry={spread * 0.86}
               fill={hover === "card" ? "#DCCBFF" : "#F7AFC9"}
-              opacity={0.92}
+              opacity={0.85}
               transform={`rotate(${a} 15 15)`}
               style={{ transition: "all .5s cubic-bezier(0.22,1,0.36,1)" }}
             />
           ))}
-          <circle cx="15" cy="15" r="2.4" fill="#FFD8BE" />
+          <circle cx="15" cy="15" r="1.9" fill="#FFD8BE" />
         </svg>
       </div>
 
@@ -167,7 +168,7 @@ export default function Cursor() {
           100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) translateY(-14px); }
         }
         @keyframes cursor-petal {
-          0% { opacity: 0.95; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+          0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
           100% { opacity: 0; transform: translate(-50%, 40px) scale(0.7) rotate(220deg); }
         }
       `}</style>

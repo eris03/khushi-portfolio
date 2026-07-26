@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { profile } from "@/lib/data";
+import { asset } from "@/lib/asset";
 import { Flower, Magnetic } from "./ui";
 
 /** Ideas that lift off the sketchbook as she draws. */
@@ -16,7 +17,7 @@ const IDEAS = [
 ];
 
 const WORDS = [
-  { t: "Hello.", cls: "text-ink2 text-[clamp(1rem,2.2vw,1.35rem)] font-sans tracking-[0.3em] uppercase" },
+  { t: "Hello.", cls: "text-ink/70 text-[clamp(1rem,2.2vw,1.35rem)] font-sans tracking-[0.3em] uppercase" },
   { t: "I'm Khushi Yadav.", cls: "h-display text-[clamp(2.4rem,7.2vw,5.6rem)] text-ink" },
 ];
 
@@ -65,29 +66,29 @@ export default function Hero({ ready }: { ready: boolean }) {
             </div>
           ))}
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+            animate={ready ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.8, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-wrap items-center gap-x-2.5 gap-y-2"
+          >
             {profile.roles.map((r, i) => (
-              <motion.span
-                key={r}
-                initial={{ opacity: 0, y: 22, filter: "blur(8px)" }}
-                animate={ready ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-                transition={{ duration: 0.8, delay: 1.3 + i * 0.18, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center gap-3"
-              >
-                <span className="font-display text-[clamp(1.05rem,2.6vw,1.7rem)] font-medium text-ink">{r}</span>
-                {i < profile.roles.length - 1 && <Flower size={13} color="#DCCBFF" />}
-              </motion.span>
+              <span key={r} className="flex items-center gap-2.5">
+                <span className="font-display text-[clamp(1.1rem,2.4vw,1.55rem)] font-semibold text-ink">{r}</span>
+                {i < profile.roles.length - 1 && <span className="h-1 w-1 rounded-full bg-ink/30" />}
+              </span>
             ))}
-          </div>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 1.95 }}
-            className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-ink2"
+            className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-ink"
           >
-            <span className="text-aurora font-medium">{profile.tagline}</span> AI Developer at RK Developers,
-            Bengaluru — shipping forecasting systems, LLM applications and Android products that people actually use.
+            AI Developer at RK Developers, Bengaluru — shipping forecasting systems, LLM applications and Android
+            products that people actually use.{" "}
+            <span className="text-ink/60">{profile.tagline}</span>
           </motion.p>
 
           <motion.div
@@ -157,7 +158,7 @@ export default function Hero({ ready }: { ready: boolean }) {
               {videoOk ? (
                 <video
                   className="avatar-blend h-full w-full scale-[1.22] object-cover"
-                  src="/avatar.mp4"
+                  src={asset("/avatar.mp4")}
                   autoPlay
                   loop
                   muted
@@ -191,7 +192,7 @@ export default function Hero({ ready }: { ready: boolean }) {
                   className="block whitespace-nowrap rounded-full px-3.5 py-1.5 font-sans text-[0.68rem] tracking-wide shadow-soft"
                   style={{
                     background: `linear-gradient(140deg, ${idea.c}, rgba(255,255,255,0.86))`,
-                    color: "#343434",
+                    color: "#2A2A2A",
                     animation: `floaty ${5 + i * 0.6}s ease-in-out ${i * 0.4}s infinite`,
                   }}
                 >

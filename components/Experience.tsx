@@ -44,8 +44,8 @@ export default function Experience() {
               <rect x="8" y="6" width="30" height="20" rx="8" fill="#FFFDFD" stroke="#F7AFC9" strokeWidth="1.6" />
               <rect x="12.5" y="10" width="9" height="7" rx="2.4" fill="#CFE8FF" />
               <rect x="24.5" y="10" width="9" height="7" rx="2.4" fill="#DCCBFF" />
-              <circle cx="16" cy="27.5" r="3.4" fill="#6D6D6D" opacity="0.55" />
-              <circle cx="30" cy="27.5" r="3.4" fill="#6D6D6D" opacity="0.55" />
+              <circle cx="16" cy="27.5" r="3.4" fill="#5C5C5C" opacity="0.55" />
+              <circle cx="30" cy="27.5" r="3.4" fill="#5C5C5C" opacity="0.55" />
               <path d="M12 6 v-3 h6 v3" fill="none" stroke="#F7AFC9" strokeWidth="1.6" strokeLinecap="round" />
               <circle cx="41" cy="16" r="2.4" fill="#FFD8BE">
                 <animate attributeName="opacity" values="0.4;1;0.4" dur="1.4s" repeatCount="indefinite" />
@@ -103,7 +103,7 @@ export default function Experience() {
               </div>
 
               {i === stations.length - 1 && (
-                <p className="mt-6 pl-1 font-hand text-xl text-pink-dusty">…this stop is still being built.</p>
+                <p className="mt-6 pl-1 font-display italic text-[1.05rem] text-ink2">…this stop is still being built.</p>
               )}
             </motion.li>
           ))}

@@ -26,19 +26,50 @@ export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [flying, setFlying] = useState(false);
   const [sent, setSent] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const send = (e: React.FormEvent) => {
+  /**
+   * Posts straight to FormSubmit, which forwards the message to khushi392004yadav@gmail.com.
+   * No backend, no API key, works on a static host. The very first message triggers a
+   * one-time confirmation email — click the link in it and every message after that
+   * lands in the inbox automatically.
+   */
+  const send = async (e: React.FormEvent) => {
     e.preventDefault();
     if (flying) return;
     setFlying(true);
-    window.setTimeout(() => {
-      const subject = encodeURIComponent(`Hello Khushi — from ${form.name || "your portfolio"}`);
-      const body = encodeURIComponent(`${form.message}\n\n— ${form.name}\n${form.email}`);
-      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    setFailed(false);
+
+    const payload = new FormData();
+    payload.append("name", form.name);
+    payload.append("email", form.email);
+    payload.append("message", form.message);
+    payload.append("_subject", `Portfolio — ${form.name || "new message"}`);
+    payload.append("_template", "table");
+    payload.append("_captcha", "false");
+
+    // let the paper plane finish its flight no matter how fast the network is
+    const flight = new Promise((r) => window.setTimeout(r, 1900));
+
+    try {
+      const [res] = await Promise.all([
+        fetch(`https://formsubmit.co/ajax/${profile.email}`, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: payload,
+        }),
+        flight,
+      ]);
+      if (!res.ok) throw new Error(String(res.status));
       setSent(true);
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      await flight;
+      setFailed(true);
+    } finally {
       setFlying(false);
-    }, 1900);
+    }
   };
 
   const copy = async () => {
@@ -215,8 +246,7 @@ export default function Contact() {
                     </span>
                     <h3 className="h-display text-2xl text-white">It&apos;s in the air.</h3>
                     <p className="max-w-xs text-[0.95rem] leading-relaxed text-white/60">
-                      Your mail client should be open. If it isn&apos;t, {profile.email} works just as well — I read
-                      everything.
+                      Your message is on its way to my inbox. I read everything, and I reply quickly.
                     </p>
                     <button
                       type="button"
@@ -292,8 +322,18 @@ export default function Contact() {
                       </span>
                     </button>
 
-                    <p className="pt-1 text-center font-hand text-base text-white/40">
-                      it opens your mail app — nothing is stored here
+                    {failed && (
+                      <p className="rounded-2xl border border-pink-quartz/40 bg-pink-quartz/10 px-4 py-3 text-center text-[0.85rem] text-white/80">
+                        That didn&apos;t send. Please email me directly at{" "}
+                        <a href={`mailto:${profile.email}`} className="underline decoration-pink-soft/60 underline-offset-4">
+                          {profile.email}
+                        </a>
+                        .
+                      </p>
+                    )}
+
+                    <p className="pt-1 text-center font-sans text-[0.72rem] tracking-wide text-white/40">
+                      Delivered straight to my inbox — no account, no newsletter, no spam.
                     </p>
                   </motion.form>
                 )}

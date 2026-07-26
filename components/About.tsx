@@ -16,14 +16,6 @@ type Page = {
 const PAGES: Page[] = [
   {
     chapter: "01",
-    title: "Artist",
-    hand: "before anything else, I drew.",
-    body: "School notebooks with more faces in the margins than notes on the page. Nobody taught me composition — I learned it by staring at things until I understood why they worked. That habit never left.",
-    doodle: "pencil",
-    tint: "#FFD6E8",
-  },
-  {
-    chapter: "02",
     title: "Engineering Student",
     hand: "VTU. eight-point-three.",
     body: "Computer Science with the AI & ML specialisation at Vijaya Vittala Institute of Technology. Four years learning that a system is just a composition you can run. Also: Technical Events Lead, 20+ volunteers, 300+ participants.",
@@ -31,7 +23,7 @@ const PAGES: Page[] = [
     tint: "#DCCBFF",
   },
   {
-    chapter: "03",
+    chapter: "02",
     title: "AI Enthusiast",
     hand: "the moment it clicked.",
     body: "MindMatrix, Kotlin, Google AI Studio, Cloud Labs. Generative AI stopped being a lecture topic and became something I could put my hands on. Rated Excellent — but the rating mattered less than the switch flipping.",
@@ -39,7 +31,7 @@ const PAGES: Page[] = [
     tint: "#CFE8FF",
   },
   {
-    chapter: "04",
+    chapter: "03",
     title: "Data Analyst",
     hand: "make it readable, then make it true.",
     body: "Python, SQL, Advanced Excel, Power BI, Tableau. Pivot tables and Power Query at one end; Holt-Winters and gradient boosting at the other. The unglamorous cleaning work is where the trust comes from.",
@@ -47,7 +39,7 @@ const PAGES: Page[] = [
     tint: "#CFF5E7",
   },
   {
-    chapter: "05",
+    chapter: "04",
     title: "AI Developer",
     hand: "shipping, not sketching.",
     body: "At RK Developers: two Android apps, two company websites, internal dashboards, LLM features in production. Full-time, full ownership — UI design through deployment. Four of my projects are live and in use today.",
@@ -55,17 +47,25 @@ const PAGES: Page[] = [
     tint: "#FFD8BE",
   },
   {
-    chapter: "06",
+    chapter: "05",
     title: "Future Innovator",
     hand: "the page still being drawn.",
     body: "Looking for a team that treats creative instinct as an engineering asset. Where the person training the model is also allowed to care what it looks like — because I have never been able to do one without the other.",
     doodle: "seed",
     tint: "#F8C8DC",
   },
+  {
+    chapter: "06",
+    title: "Artist, off the clock",
+    hand: "and outside all of it — I draw.",
+    body: "Long before the code there were school notebooks with more faces in the margins than notes on the page. Nobody taught me composition; I learned it by staring at things until I understood why they worked. It's still the habit behind how I clean a dataset and design an interface.",
+    doodle: "pencil",
+    tint: "#FFD6E8",
+  },
 ];
 
 function Doodle({ kind, tint }: { kind: Page["doodle"]; tint: string }) {
-  const stroke = "#6D6D6D";
+  const stroke = "#5C5C5C";
   const common = { fill: "none", stroke, strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   const draw = (d: string, i: number) => (
     <motion.path
@@ -112,7 +112,7 @@ export default function About() {
       <SectionHead
         eyebrow="Chapter one"
         title="A sketchbook, opened"
-        sub="Six pages, in order. Flip them yourself — the handwriting is the honest part."
+        sub="Six pages, in order — engineering first, and the drawing that started it all at the end."
       />
 
       <div className="mx-auto mt-16 max-w-5xl">
@@ -243,8 +243,8 @@ export default function About() {
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-12 max-w-2xl text-center text-[0.95rem] leading-relaxed text-ink2">
-            Artist → Engineering Student → AI Enthusiast → Data Analyst → AI Developer → Future Innovator.
-            <span className="mt-2 block font-hand text-lg text-pink-dusty">Same person, six drafts.</span>
+            Engineering Student → AI Enthusiast → Data Analyst → AI Developer → Future Innovator → and still an artist.
+            <span className="mt-2 block font-display italic text-[1.05rem] text-ink">Same person, six drafts.</span>
           </p>
         </Reveal>
       </div>

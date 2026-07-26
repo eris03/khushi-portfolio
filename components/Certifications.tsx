@@ -73,7 +73,7 @@ export default function Certifications() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="h-px w-14 bg-ink/20" />
-                        <span className="font-hand text-base text-ink2">flip me</span>
+                        <span className="eyebrow text-ink2">view details</span>
                       </div>
                     </div>
 
@@ -82,7 +82,7 @@ export default function Certifications() {
                       className="absolute inset-0 flex flex-col justify-between rounded-3xl bg-canvas2 px-6 py-7 shadow-lift"
                       style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", border: `1.5px solid ${c.color}` }}
                     >
-                      <span className="eyebrow" style={{ color: "#6D6D6D" }}>
+                      <span className="eyebrow" style={{ color: "#5C5C5C" }}>
                         what it taught me
                       </span>
                       <p className="text-[0.92rem] leading-relaxed text-ink2">{c.back}</p>

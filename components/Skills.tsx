@@ -5,11 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { skills, type Skill } from "@/lib/data";
 import { SectionHead, Flower } from "./ui";
 
-/** Three orbits, biggest skills closest in. */
+/**
+ * Three orbits, biggest skills closest in.
+ * Counts are deliberately low on the inner rings — arc length there is short,
+ * and crowding is what made the labels collide.
+ */
 const RINGS = [
-  { r: 22, dur: 46, items: skills.slice(0, 5) },
-  { r: 34, dur: 66, items: skills.slice(5, 11) },
-  { r: 45.5, dur: 88, items: skills.slice(11) },
+  { r: 21, dur: 52, items: skills.slice(0, 4) },
+  { r: 33, dur: 74, items: skills.slice(4, 9) },
+  { r: 45, dur: 96, items: skills.slice(9) },
 ];
 
 function Planet({
@@ -27,7 +31,7 @@ function Planet({
   onHover: (s: Skill | null) => void;
   active: boolean;
 }) {
-  const size = 34 + (s.level - 75) * 0.85;
+  const size = 30 + (s.level - 75) * 0.6;
   return (
     <div
       className="absolute left-1/2 top-1/2"
@@ -60,7 +64,10 @@ function Planet({
             <span className="absolute -top-[2px] left-1/2 h-1 w-1 -translate-x-1/2 rounded-full" style={{ background: s.color }} />
           </span>
 
-          <span className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap font-sans text-[0.66rem] tracking-wide text-ink2 transition-opacity duration-300 group-hover:opacity-0">
+          <span
+            className="pointer-events-none absolute left-1/2 top-[calc(100%+7px)] -translate-x-1/2 whitespace-nowrap rounded-full bg-canvas2/85 px-2 py-0.5 font-sans text-[0.63rem] font-medium tracking-wide text-ink shadow-sm backdrop-blur-sm transition-opacity duration-300"
+            style={{ opacity: active ? 0 : 1 }}
+          >
             {s.name}
           </span>
         </button>
@@ -87,7 +94,7 @@ export default function Skills() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-90px" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto aspect-square w-[min(92vw,620px)]"
+          className="relative mx-auto aspect-square w-[min(88vw,660px)]"
           style={{ animationPlayState: hot ? "paused" : "running" }}
         >
           {/* nebula */}
@@ -125,16 +132,53 @@ export default function Skills() {
             ))}
           </div>
 
-          {/* me, at the centre */}
+          {/* the core — a small neural net, always firing */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="relative grid h-[clamp(90px,17vw,132px)] w-[clamp(90px,17vw,132px)] place-items-center rounded-full glass shadow-lift">
-              <div className="absolute inset-0 animate-breathe rounded-full" style={{ background: "radial-gradient(circle,rgba(248,200,220,0.5),transparent 68%)" }} />
-              <div className="relative text-center">
-                <span className="animate-breathe block">
-                  <Flower size={26} className="mx-auto" />
-                </span>
-                <span className="mt-1 block h-display text-[0.95rem] text-ink">Khushi</span>
-                <span className="block font-sans text-[0.6rem] tracking-[0.18em] uppercase text-ink2">the sun</span>
+            <div className="relative grid h-[clamp(108px,19vw,152px)] w-[clamp(108px,19vw,152px)] place-items-center rounded-full glass shadow-lift">
+              <div
+                className="absolute inset-0 animate-breathe rounded-full"
+                style={{ background: "radial-gradient(circle,rgba(248,200,220,0.55),transparent 68%)" }}
+              />
+
+              {/* pulse rings radiating out */}
+              {[0, 1, 2].map((k) => (
+                <motion.span
+                  key={k}
+                  className="absolute rounded-full border border-pink-quartz/50"
+                  style={{ inset: 0 }}
+                  animate={{ scale: [1, 1.55], opacity: [0.55, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: k, ease: "easeOut" }}
+                />
+              ))}
+
+              {/* the network itself */}
+              <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full p-[18%]" aria-hidden>
+                <g stroke="#DCCBFF" strokeWidth="1" opacity="0.55">
+                  {[22, 50, 78].map((y1) =>
+                    [32, 68].map((y2) => <line key={`${y1}-${y2}`} x1="16" y1={y1} x2="50" y2={y2} />)
+                  )}
+                  {[32, 68].map((y1) => (
+                    <line key={`o${y1}`} x1="50" y1={y1} x2="84" y2="50" />
+                  ))}
+                </g>
+                {[22, 50, 78].map((y, k) => (
+                  <circle key={`i${y}`} cx="16" cy={y} r="4" fill="#CFE8FF">
+                    <animate attributeName="opacity" values="0.35;1;0.35" dur="2.4s" begin={`${k * 0.3}s`} repeatCount="indefinite" />
+                  </circle>
+                ))}
+                {[32, 68].map((y, k) => (
+                  <circle key={`h${y}`} cx="50" cy={y} r="4.5" fill="#CFF5E7">
+                    <animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin={`${0.5 + k * 0.35}s`} repeatCount="indefinite" />
+                  </circle>
+                ))}
+                <circle cx="84" cy="50" r="5.5" fill="#F7AFC9">
+                  <animate attributeName="r" values="5.5;7;5.5" dur="1.8s" repeatCount="indefinite" />
+                </circle>
+              </svg>
+
+              <div className="relative z-10 mt-[52%] text-center">
+                <span className="block h-display text-[0.9rem] text-ink">Khushi</span>
+                <span className="block font-sans text-[0.55rem] tracking-[0.18em] uppercase text-ink2">the core</span>
               </div>
             </div>
           </div>
@@ -194,7 +238,7 @@ export default function Skills() {
                 <span className="mx-auto block w-fit animate-floaty">
                   <Flower size={34} color="#DCCBFF" />
                 </span>
-                <p className="mt-5 font-hand text-2xl text-ink2">reach out and touch a planet</p>
+                <p className="mt-5 font-display italic text-[1.15rem] text-ink">hover a planet to explore</p>
                 <p className="mx-auto mt-3 max-w-xs text-[0.9rem] leading-relaxed text-ink2/80">
                   Python, SQL, scikit-learn, Power BI, Kotlin, Prompt Engineering, LLM integration and the rest — each one
                   attached to something I actually built with it.

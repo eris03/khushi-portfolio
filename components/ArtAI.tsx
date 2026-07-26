@@ -19,7 +19,8 @@ export default function ArtAI() {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    setSplit(Math.min(88, Math.max(12, ((clientX - r.left) / r.width) * 100)));
+    // full range — the creative side can take the whole frame, and so can the AI side
+    setSplit(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)));
   };
 
   return (
@@ -150,7 +151,7 @@ export default function ArtAI() {
 
             {/* brush strokes, drawn on view */}
             <svg viewBox="0 0 200 140" className="absolute inset-0 h-full w-full" aria-hidden>
-              <g fill="none" stroke="#6D6D6D" strokeWidth="0.9" strokeLinecap="round" opacity="0.42">
+              <g fill="none" stroke="#5C5C5C" strokeWidth="0.9" strokeLinecap="round" opacity="0.42">
                 {["M18 96 C36 58, 58 52, 74 82", "M26 108 C50 92, 62 74, 88 66", "M14 60 C28 44, 44 40, 56 48"].map((d, i) => (
                   <motion.path
                     key={d}
@@ -185,7 +186,7 @@ export default function ArtAI() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + i * 0.07, duration: 0.5 }}
-                    className="rounded-full px-3 py-1.5 font-hand text-[0.95rem] text-ink glass"
+                    className="rounded-full px-3 py-1.5 font-sans text-[0.78rem] font-medium text-ink glass"
                   >
                     {w}
                   </motion.span>
@@ -196,8 +197,13 @@ export default function ArtAI() {
 
           {/* ---------- the divider ---------- */}
           <div
-            className="pointer-events-none absolute inset-y-0 z-10 w-[2px] transition-[left] duration-200 ease-out"
-            style={{ left: `${split}%`, background: "linear-gradient(180deg,transparent,#FFFFFF 20%,#FFFFFF 80%,transparent)", transitionDuration: dragging ? "0ms" : undefined }}
+            className="pointer-events-none absolute inset-y-0 z-10 w-[2px] transition-[left,opacity] duration-200 ease-out"
+            style={{
+              left: `${split}%`,
+              opacity: split > 97 || split < 3 ? 0 : 1,
+              background: "linear-gradient(180deg,transparent,#FFFFFF 20%,#FFFFFF 80%,transparent)",
+              transitionDuration: dragging ? "0ms" : undefined,
+            }}
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <div className="grid h-14 w-14 place-items-center rounded-full bg-white/90 shadow-lift">
@@ -212,7 +218,7 @@ export default function ArtAI() {
           </div>
         </motion.div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center font-hand text-[clamp(1.2rem,3vw,1.65rem)] text-ink2">
+        <p className="mx-auto mt-10 max-w-2xl text-center font-display italic text-[clamp(1.1rem,2.4vw,1.4rem)] text-ink">
           I have never been able to do one without the other. The cleaning, the tuning, the choosing —
           that&apos;s composition. It just runs.
         </p>

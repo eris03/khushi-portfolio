@@ -1,14 +1,44 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import type { Project } from "@/lib/data";
+import { asset } from "@/lib/asset";
 
 /**
  * Each project is a painting. When you hover it, the painting starts moving.
  * `alive` drives every animation so an idle gallery stays cheap to render.
+ *
+ * If the project has a real screenshot at `p.image`, that is shown instead —
+ * and if the file is missing the component falls straight back to the artwork,
+ * so the gallery never shows a broken image.
  */
 export default function ProjectArt({ p, alive }: { p: Project; alive: boolean }) {
   const [a, b, c] = p.palette;
+  const [imgFailed, setImgFailed] = useState(false);
+  const showPhoto = Boolean(p.image) && !imgFailed;
+
+  if (showPhoto) {
+    return (
+      <div className="absolute inset-0 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={asset(p.image!)}
+          alt={`${p.name} — ${p.kind}`}
+          onError={() => setImgFailed(true)}
+          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-silk"
+          style={{ transform: alive ? "scale(1.06)" : "scale(1)" }}
+          loading="lazy"
+        />
+        {/* a wash of the project palette so photos still feel part of the gallery */}
+        <div
+          className="pointer-events-none absolute inset-0 mix-blend-soft-light transition-opacity duration-700"
+          style={{ background: `linear-gradient(150deg, ${a}, ${c})`, opacity: alive ? 0.25 : 0.5 }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+      </div>
+    );
+  }
 
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -55,8 +85,8 @@ export default function ProjectArt({ p, alive }: { p: Project; alive: boolean })
           />
           {/* the anomaly it caught */}
           <motion.g initial={{ opacity: 0, scale: 0 }} animate={alive ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }} transition={{ delay: 1.2, duration: 0.5 }} style={{ transformOrigin: "189px 62px" }}>
-            <circle cx="189" cy="62" r="9" fill="none" stroke="#343434" strokeWidth="1.6" strokeDasharray="3 3" />
-            <circle cx="189" cy="62" r="3.4" fill="#343434" />
+            <circle cx="189" cy="62" r="9" fill="none" stroke="#2A2A2A" strokeWidth="1.6" strokeDasharray="3 3" />
+            <circle cx="189" cy="62" r="3.4" fill="#2A2A2A" />
           </motion.g>
         </svg>
       )}
@@ -144,7 +174,7 @@ export default function ProjectArt({ p, alive }: { p: Project; alive: boolean })
                 cx={pin.x}
                 cy={pin.y}
                 r="4"
-                fill="#343434"
+                fill="#2A2A2A"
                 initial={{ scale: 0 }}
                 animate={alive ? { scale: 1 } : { scale: 0.5 }}
                 transition={{ delay: pin.d, type: "spring", stiffness: 300, damping: 14 }}
