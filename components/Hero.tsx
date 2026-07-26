@@ -156,9 +156,12 @@ export default function Hero({ ready }: { ready: boolean }) {
             {/* the animated illustration of me */}
             <div className="absolute inset-[6%] overflow-hidden rounded-[2rem]">
               {videoOk ? (
+                /* poster carries the same still frame, so if H.264 can't decode
+                   (some browsers ship without it) the illustration still shows */
                 <video
                   className="avatar-blend h-full w-full scale-[1.22] object-cover"
                   src={asset("/avatar.mp4")}
+                  poster={asset("/avatar-poster.png")}
                   autoPlay
                   loop
                   muted
