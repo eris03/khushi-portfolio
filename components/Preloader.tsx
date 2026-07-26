@@ -79,12 +79,17 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         >
           <svg viewBox="0 0 320 300" className="w-[min(78vw,420px)]" aria-hidden>
             <defs>
-              <linearGradient id="pl-water" x1="0" y1="0" x2="1" y2="1">
+              {/*
+                userSpaceOnUse matters here: the vertical stroke of the K has a
+                zero-width bounding box, and an objectBoundingBox gradient
+                collapses to nothing on it — the letter renders as "<".
+              */}
+              <linearGradient id="pl-water" gradientUnits="userSpaceOnUse" x1="90" y1="60" x2="230" y2="245">
                 <stop offset="0%" stopColor="#F7AFC9" />
                 <stop offset="50%" stopColor="#DCCBFF" />
                 <stop offset="100%" stopColor="#CFE8FF" />
               </linearGradient>
-              <linearGradient id="pl-circuit" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id="pl-circuit" gradientUnits="userSpaceOnUse" x1="40" y1="60" x2="270" y2="240">
                 <stop offset="0%" stopColor="#CFF5E7" />
                 <stop offset="100%" stopColor="#DCCBFF" />
               </linearGradient>
