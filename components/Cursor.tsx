@@ -89,9 +89,8 @@ export default function Cursor() {
 
   if (!enabled) return null;
 
-  // slightly smaller than the original bloom — still a flower, less of a stage prop
-  const petalScale = hover === "button" ? 1.5 : hover === "card" ? 1.15 : 0.88;
-  const spread = hover === "button" ? 8 : 5.6;
+  const petalScale = hover === "button" ? 1.9 : hover === "card" ? 1.5 : 1.2;
+  const spread = hover === "button" ? 9.5 : 7;
 
   return (
     <>
@@ -127,8 +126,8 @@ export default function Cursor() {
         className="pointer-events-none fixed left-0 top-0 z-[201] rounded-full transition-[width,height,opacity] duration-500 ease-silk"
         aria-hidden
         style={{
-          width: hover === "none" ? 26 : 50,
-          height: hover === "none" ? 26 : 50,
+          width: hover === "none" ? 34 : 62,
+          height: hover === "none" ? 34 : 62,
           background:
             hover === "card"
               ? "radial-gradient(circle, rgba(220,203,255,0.5), rgba(220,203,255,0) 70%)"
@@ -139,8 +138,8 @@ export default function Cursor() {
       {/* the flower itself — small, and quiet until you hover something */}
       <div ref={dotRef} className="pointer-events-none fixed left-0 top-0 z-[202]" aria-hidden>
         <svg
-          width="22"
-          height="22"
+          width="30"
+          height="30"
           viewBox="0 0 30 30"
           className="transition-transform duration-500 ease-silk"
           style={{ transform: `scale(${down ? petalScale * 0.82 : petalScale}) rotate(${hover === "button" ? 30 : 0}deg)` }}
@@ -150,7 +149,7 @@ export default function Cursor() {
               key={a}
               cx="15"
               cy={15 - spread}
-              rx="2.8"
+              rx="3.4"
               ry={spread * 0.86}
               fill={hover === "card" ? "#DCCBFF" : "#F7AFC9"}
               opacity={0.85}
@@ -158,7 +157,7 @@ export default function Cursor() {
               style={{ transition: "all .5s cubic-bezier(0.22,1,0.36,1)" }}
             />
           ))}
-          <circle cx="15" cy="15" r="1.9" fill="#FFD8BE" />
+          <circle cx="15" cy="15" r="2.4" fill="#FFD8BE" />
         </svg>
       </div>
 

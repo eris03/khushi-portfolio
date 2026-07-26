@@ -48,7 +48,9 @@ export default function QuickView({ open, onClose }: { open: boolean; onClose: (
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[180] overflow-y-auto"
+          className="fixed inset-0 z-[180] overflow-y-auto overscroll-contain"
+          /* Lenis hijacks the wheel globally; without this the overlay can't scroll */
+          data-lenis-prevent
           style={{ background: "linear-gradient(160deg,#FFF8F6,#FFFDFD 40%,#FFF1F6)" }}
           role="dialog"
           aria-modal="true"

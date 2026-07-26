@@ -32,7 +32,9 @@ function Modal({ p, onClose }: { p: Project; onClose: () => void }) {
    */
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto p-3 sm:p-6"
+      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto overscroll-contain p-3 sm:p-6"
+      /* Lenis hijacks the wheel globally; without this the modal can't scroll */
+      data-lenis-prevent
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
