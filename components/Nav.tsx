@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Flower } from "./ui";
+import { asset } from "@/lib/asset";
 
 const LINKS = [
   { id: "about", label: "Story" },
@@ -15,7 +16,7 @@ const LINKS = [
   { id: "contact", label: "Contact" },
 ];
 
-export default function Nav({ ready }: { ready: boolean }) {
+export default function Nav({ ready, onQuickView }: { ready: boolean; onQuickView: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("hero");
@@ -81,6 +82,21 @@ export default function Nav({ ready }: { ready: boolean }) {
           </ul>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={onQuickView}
+              className="hidden rounded-full px-3.5 py-2 font-sans text-[0.78rem] text-ink transition-colors duration-300 hover:bg-white/70 md:block"
+              title="A scannable one-page summary"
+            >
+              Quick view
+            </button>
+            <a
+              href={asset("/Khushi-Yadav-Resume.pdf")}
+              download
+              className="hidden rounded-full px-3.5 py-2 font-sans text-[0.78rem] text-ink transition-colors duration-300 hover:bg-white/70 lg:block"
+            >
+              Résumé
+            </a>
             <a
               href="#contact"
               className="hidden rounded-full bg-ink px-4 py-2 font-sans text-[0.8rem] text-white transition-transform duration-300 hover:scale-[1.04] sm:block"
@@ -133,6 +149,26 @@ export default function Nav({ ready }: { ready: boolean }) {
                 </li>
               ))}
             </ul>
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-white/60 pt-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  onQuickView();
+                }}
+                className="rounded-2xl bg-white/70 px-4 py-3 font-sans text-sm text-ink"
+              >
+                Quick view
+              </button>
+              <a
+                href={asset("/Khushi-Yadav-Resume.pdf")}
+                download
+                onClick={() => setOpen(false)}
+                className="rounded-2xl bg-white/70 px-4 py-3 text-center font-sans text-sm text-ink"
+              >
+                Résumé
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

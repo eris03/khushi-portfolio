@@ -90,6 +90,34 @@ function Modal({ p, onClose }: { p: Project; onClose: () => void }) {
             ))}
           </div>
 
+          {/* the measured numbers */}
+          {p.metrics && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-10"
+            >
+              <h4 className="eyebrow text-ink2">By the numbers</h4>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {p.metrics.map((m, i) => (
+                  <motion.div
+                    key={m.label}
+                    initial={{ opacity: 0, y: 18, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 0.8 + i * 0.1, duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
+                    className="relative overflow-hidden rounded-2xl px-5 py-4"
+                    style={{ background: `linear-gradient(150deg, ${p.palette[i % 3]}66, rgba(255,255,255,0.8))` }}
+                  >
+                    <span className="block h-display text-[clamp(1.3rem,3.4vw,1.75rem)] leading-tight text-ink">{m.value}</span>
+                    <span className="mt-1 block font-sans text-[0.78rem] font-medium text-ink">{m.label}</span>
+                    {m.note && <span className="mt-1.5 block text-[0.74rem] leading-snug text-ink2">{m.note}</span>}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

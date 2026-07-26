@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { profile } from "@/lib/data";
 import { seeded } from "@/lib/rng";
+import { asset } from "@/lib/asset";
 import { Flower } from "./ui";
 
 const rand = seeded(90210);
@@ -214,13 +215,25 @@ export default function Contact() {
               ))}
             </div>
 
-            <button
-              type="button"
-              onClick={copy}
-              className="mt-8 inline-flex items-center gap-2 rounded-full px-5 py-3 font-sans text-[0.8rem] text-white glass-dark transition-transform duration-300 hover:scale-[1.04]"
-            >
-              {copied ? "copied to your clipboard ✿" : "copy my email"}
-            </button>
+            <div className="mt-8 flex flex-wrap gap-2.5">
+              <a
+                href={asset("/Khushi-Yadav-Resume.pdf")}
+                download
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-sans text-[0.8rem] text-ink transition-transform duration-300 hover:scale-[1.04]"
+              >
+                Download résumé (PDF)
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 1.5v9m0 0 3.5-3.5M8 10.5 4.5 7M2 13h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <button
+                type="button"
+                onClick={copy}
+                className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-sans text-[0.8rem] text-white glass-dark transition-transform duration-300 hover:scale-[1.04]"
+              >
+                {copied ? "copied to your clipboard ✿" : "copy my email"}
+              </button>
+            </div>
           </div>
 
           {/* ---------------- the note ---------------- */}
