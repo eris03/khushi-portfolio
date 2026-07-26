@@ -73,7 +73,7 @@ export default function Certifications() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="h-px w-14 bg-ink/20" />
-                        <span className="eyebrow text-ink2">view details</span>
+                        <span className="font-hand text-lg text-ink2">flip me</span>
                       </div>
                     </div>
 

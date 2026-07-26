@@ -96,7 +96,7 @@ export default function Cursor() {
   return (
     <>
       {/* trailing sparkles + petals — sparse, not a shower */}
-      <div className="pointer-events-none fixed inset-0 z-[150]" aria-hidden>
+      <div className="pointer-events-none fixed inset-0 z-[200]" aria-hidden>
         {trail.map((t) => (
           <span
             key={t.id}
@@ -124,7 +124,7 @@ export default function Cursor() {
       {/* soft glow ring, lagging behind */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[151] rounded-full transition-[width,height,opacity] duration-500 ease-silk"
+        className="pointer-events-none fixed left-0 top-0 z-[201] rounded-full transition-[width,height,opacity] duration-500 ease-silk"
         aria-hidden
         style={{
           width: hover === "none" ? 26 : 50,
@@ -137,7 +137,7 @@ export default function Cursor() {
       />
 
       {/* the flower itself — small, and quiet until you hover something */}
-      <div ref={dotRef} className="pointer-events-none fixed left-0 top-0 z-[152]" aria-hidden>
+      <div ref={dotRef} className="pointer-events-none fixed left-0 top-0 z-[202]" aria-hidden>
         <svg
           width="22"
           height="22"
