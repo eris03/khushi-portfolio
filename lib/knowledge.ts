@@ -38,8 +38,8 @@ export const KNOWLEDGE: Entry[] = [
     id: "production",
     keys: ["production", "live", "shipped", "real", "deployed", "users", "actually", "used", "proof", "evidence"],
     answer:
-      "Yes — four projects are live and in use today out of 10+ built end to end. FieldTrack Pro runs daily at RK Developers for field attendance, and the LLM chatbot is deployed and answering real user queries. The two Android apps and two company websites she shipped at RK are also in production.",
-    followUps: ["Tell me about FieldTrack Pro", "Tell me about the LLM chatbot"],
+      "Yes — four projects are live and in use today out of 10+ built end to end. FieldTrack Pro runs daily at RK Developers for field attendance, and the LLM chatbot is deployed and answering real user queries at 90%+ accuracy. The two Android apps and two company websites she shipped at RK are also in production. Alongside those: a RAG Q&A system, an AI support agent, an LLM guardrails layer and a sales BI dashboard.",
+    followUps: ["Tell me about FieldTrack Pro", "Tell me about the RAG demo"],
   },
   {
     id: "python",
@@ -68,6 +68,34 @@ export const KNOWLEDGE: Entry[] = [
     answer:
       "FieldTrack Pro is a field attendance app built for RK Developers — GPS-verified, selfie-confirmed punch-in with task categories, backed by Firebase, plus an admin dashboard so managers pull and analyse records themselves. It's live and in daily use. The design challenge was making verification a two-second action rather than something that felt like surveillance.",
     followUps: ["Has she shipped anything to production?", "What does she do right now?"],
+  },
+  {
+    id: "rag",
+    keys: ["rag", "retrieval", "augmented", "faiss", "vector", "embedding", "citation", "cited", "source", "qa"],
+    answer:
+      "The RAG Q&A Demo is a retrieval-augmented question-answering system — sentence-transformers for embeddings, FAISS for vector search, a FastAPI service assembling context, and a React frontend that shows every answer next to the passages it came from. Deliberately built to run with no API key, using local embeddings, so anyone can clone it and try it for free.",
+    followUps: ["Tell me about the AI Support Agent", "What's her prompt engineering like?"],
+  },
+  {
+    id: "support",
+    keys: ["support", "agent", "customer", "bm25", "hybrid", "sentiment", "escalation", "escalate", "confidence", "conversational"],
+    answer:
+      "The AI Support Agent combines semantic embeddings with BM25 keyword scoring, so exact product codes and natural phrasing both retrieve correctly. Every reply carries a confidence score, sentiment analysis reads the customer's tone, and low confidence or rising frustration triggers automatic escalation to a human. The interesting engineering was tuning that escalation threshold.",
+    followUps: ["Tell me about the RAG demo", "Tell me about the LLM chatbot"],
+  },
+  {
+    id: "guardrails",
+    keys: ["guardrail", "guardrails", "safety", "security", "injection", "jailbreak", "attack", "validation", "secure"],
+    answer:
+      "LLM Guardrails is a lightweight two-sided safety layer: input screening that flags prompt-injection patterns before they reach the model, and output validation that checks responses against expected shape and content before they reach the user. Built to stay lightweight on purpose — guardrails that add latency or block legitimate questions get switched off.",
+    followUps: ["What's her prompt engineering like?", "Has she shipped anything to production?"],
+  },
+  {
+    id: "sales",
+    keys: ["sale", "dashboard", "bi", "business", "intelligence", "streamlit", "plotly", "kpi", "order", "6000", "visualisation", "visualization"],
+    answer:
+      "The Sales Analytics Dashboard is interactive BI over 6,000 orders — Streamlit and Plotly, with live KPIs, filters that slice by the dimensions people actually ask about, and trend analysis. The design decision was what to leave out: it answers the four or five questions managers genuinely repeat, instantly, rather than charting everything.",
+    followUps: ["What about data tools?", "Tell me about DemandSense"],
   },
   {
     id: "movies",
