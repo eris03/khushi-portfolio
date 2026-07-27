@@ -155,6 +155,133 @@ export default function ProjectArt({ p, alive }: { p: Project; alive: boolean })
         </div>
       )}
 
+      {/* ---------------- retrieval / RAG ---------------- */}
+      {p.visual === "rag" && (
+        <svg viewBox="0 0 300 200" className="absolute inset-0 h-full w-full" aria-hidden>
+          {/* the corpus: documents that light up when retrieved */}
+          {[
+            { x: 26, y: 40, hit: false },
+            { x: 26, y: 92, hit: true },
+            { x: 26, y: 144, hit: false },
+            { x: 74, y: 66, hit: true },
+            { x: 74, y: 118, hit: false },
+          ].map((d, i) => (
+            <motion.g
+              key={i}
+              initial={{ opacity: 0.4 }}
+              animate={alive ? { opacity: d.hit ? [0.4, 1, 1] : 0.35 } : { opacity: 0.4 }}
+              transition={{ duration: 1.1, delay: 0.2 + i * 0.09 }}
+            >
+              <rect x={d.x} y={d.y} width="30" height="38" rx="4" fill="#FFFFFF" fillOpacity={d.hit ? 0.95 : 0.5} />
+              {[0, 1, 2].map((l) => (
+                <rect key={l} x={d.x + 5} y={d.y + 8 + l * 8} width={20 - l * 4} height="2.6" rx="1.3" fill="#2A2A2A" fillOpacity="0.28" />
+              ))}
+            </motion.g>
+          ))}
+
+          {/* retrieval beams into the answer */}
+          {[
+            { y: 111, d: 0.5 },
+            { y: 85, d: 0.7 },
+          ].map((b, i) => (
+            <motion.path
+              key={i}
+              d={`M108 ${b.y} C150 ${b.y}, 160 100, 196 100`}
+              fill="none"
+              stroke="#FFFFFF"
+              strokeWidth="2"
+              strokeLinecap="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={alive ? { pathLength: 1, opacity: 0.9 } : { pathLength: 0, opacity: 0 }}
+              transition={{ duration: 0.8, delay: b.d }}
+            />
+          ))}
+
+          {/* the cited answer */}
+          <motion.g
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={alive ? { opacity: 1, scale: 1 } : { opacity: 0.4, scale: 0.96 }}
+            transition={{ duration: 0.5, delay: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
+            style={{ transformOrigin: "240px 100px" }}
+          >
+            <rect x="200" y="62" width="80" height="76" rx="10" fill="#FFFFFF" fillOpacity="0.92" />
+            {[0, 1, 2, 3].map((l) => (
+              <rect key={l} x="210" y={76 + l * 11} width={l === 3 ? 34 : 60} height="3.4" rx="1.7" fill="#2A2A2A" fillOpacity="0.3" />
+            ))}
+            {/* the citation chips */}
+            {[0, 1].map((c) => (
+              <rect key={c} x={210 + c * 20} y="122" width="16" height="7" rx="3.5" fill="#2A2A2A" fillOpacity="0.55" />
+            ))}
+          </motion.g>
+        </svg>
+      )}
+
+      {/* ---------------- guardrails ---------------- */}
+      {p.visual === "shield" && (
+        <svg viewBox="0 0 300 200" className="absolute inset-0 h-full w-full" aria-hidden>
+          {/* hostile prompts flying in */}
+          {[
+            { y: 58, d: 0 },
+            { y: 100, d: 0.35 },
+            { y: 142, d: 0.7 },
+          ].map((a, i) => (
+            <motion.g key={i}>
+              <motion.rect
+                x="6"
+                y={a.y - 7}
+                width="44"
+                height="14"
+                rx="7"
+                fill="#2A2A2A"
+                fillOpacity="0.45"
+                initial={{ x: 6, opacity: 0 }}
+                animate={alive ? { x: [6, 78, 78], opacity: [0, 1, 0] } : { opacity: 0 }}
+                transition={{ duration: 1.5, delay: a.d, repeat: alive ? Infinity : 0, repeatDelay: 0.9 }}
+              />
+            </motion.g>
+          ))}
+
+          {/* the shield, deflecting */}
+          <motion.g
+            animate={alive ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+            transition={{ duration: 1.5, repeat: alive ? Infinity : 0, repeatDelay: 0.9 }}
+            style={{ transformOrigin: "150px 100px" }}
+          >
+            <path
+              d="M150 44 L192 60 V104 C192 132 172 148 150 158 C128 148 108 132 108 104 V60 Z"
+              fill="#FFFFFF"
+              fillOpacity="0.9"
+              stroke="#FFFFFF"
+              strokeWidth="2"
+            />
+            <motion.path
+              d="M133 100 L145 113 L169 88"
+              fill="none"
+              stroke="#2A2A2A"
+              strokeOpacity="0.6"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              animate={alive ? { pathLength: 1 } : { pathLength: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            />
+          </motion.g>
+
+          {/* clean output continuing on */}
+          <motion.path
+            d="M198 100 H288"
+            stroke="#FFFFFF"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeDasharray="6 6"
+            initial={{ pathLength: 0 }}
+            animate={alive ? { pathLength: 1 } : { pathLength: 0 }}
+            transition={{ duration: 0.9, delay: 0.9 }}
+          />
+        </svg>
+      )}
+
       {/* ---------------- attendance map ---------------- */}
       {p.visual === "map" && (
         <svg viewBox="0 0 300 200" className="absolute inset-0 h-full w-full" aria-hidden>
